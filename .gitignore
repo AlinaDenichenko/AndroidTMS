@@ -1,6 +1,7 @@
 .DS_Dtore
 /build
 .idea
+/out
 
 # Compiled class file
 *.class
