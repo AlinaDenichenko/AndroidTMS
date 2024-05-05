@@ -14,15 +14,15 @@ public class User {
         this.workExperience = workExperience;
     }
 
-    private float salary() {
+    private float getSalary() {
         return 1000 * workExperience * profession.getRatio();
     }
 
-    public String salaryWithBonus(int bonus) {
-        return "Final salary: " + String.format("%.0f", salary() + bonus);
+    public String getSalaryWithBonus(int bonus) {
+        return "Final salary: " + String.format("%.0f", getSalary() + bonus);
     }
 
     public String toString() {
-        return "Name: " + name + ", profession: " + profession + ", work experience: " + workExperience + ", salary: " + String.format("%.0f", salary());
+        return "Name: " + name + ", profession: " + profession + ", work experience: " + workExperience + ", salary: " + String.format("%.0f", getSalary());
     }
 }
