@@ -18,8 +18,8 @@ public class User {
         return 1000 * workExperience * profession.getRatio();
     }
 
-    public String getSalaryWithBonus(int bonus) {
-        return "Final salary: " + String.format("%.0f", getSalary() + bonus);
+    public float getSalaryWithBonus(int bonus) {
+        return getSalary() + bonus;
     }
 
     public String toString() {
