@@ -1,6 +1,4 @@
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -46,28 +44,44 @@ public class Main {
                 .toList()
         );
 
-        System.out.println("All producers of Russia: " + producers.stream()
+        System.out.println("All producers of Russia: " + products.stream()
+                .map(Product::getProducer)
                 .filter(producer -> Objects.equals(producer.getCountry(), "Russia"))
                 .map(Producer::getName)
-                .toList()
+                .collect(Collectors.toSet())
         );
 
-        System.out.println("All shops of New York: " + shops.stream()
+        System.out.println("All shops of New York: " + products.stream()
+                .flatMap(product -> product.getShops().stream())
                 .filter(shop -> Objects.equals(shop.getCity(), "New York"))
-                .toList()
+                .collect(Collectors.toSet())
         );
 
-        System.out.println("Address of shop of phone number 123456789: " + shops.stream()
+        System.out.println("Address of shop of phone number 123456789: " + products.stream()
+                .flatMap(product -> product.getShops().stream())
                 .filter(shop -> Objects.equals(shop.getPhone(), "123456789"))
                 .map(Shop::getAddress)
-                .toList()
+                .collect(Collectors.toSet())
         );
 
-        System.out.println("All products of shop #138: " + products.stream()
+        Shop shop138 = products.stream()
                 .flatMap(product -> product.getShops().stream())
                 .filter(shop -> shop.getNumber() == 138)
                 .toList()
-        );
+                .get(0);
+
+        System.out.println("All products of shop #138: " + products.stream()
+                .filter(product -> {
+                            for (Shop shop : product.getShops()) {
+                                if (shop == shop138) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                )
+                .map(Product::getName)
+                .toList());
 
         System.out.println(shops.stream()
                 .collect(Collectors.toMap(Shop::getNumber, Shop::getPhone))
@@ -88,8 +102,9 @@ public class Main {
             System.out.println("Not all food's products can be delivery");
         }
 
-        System.out.println("Count of shops: " + shops.stream()
-                .count()
+        System.out.println("Count of shop: " + products.stream()
+                .flatMap(product -> product.getShops().stream())
+                .collect(Collectors.toSet()).size()
         );
 
         System.out.println("Sort of products: " + products.stream()
